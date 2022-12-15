@@ -60,6 +60,7 @@ Joueur::mange(Joueur &joueur)
 
 }
 
+// Le joueur se déplace uniquement si le jeu n'est pas en pause
 void
 Joueur::deplace(bool pause){
     if (!pause)

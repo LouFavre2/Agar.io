@@ -8,7 +8,7 @@
 Jeu::Jeu(): joueurPrincipal(ReglageJeu::LARGEUR_FENETRE/2.0, ReglageJeu::HAUTEUR_FENETRE/2.0, 30.0)
 {
     SDL_Init(SDL_INIT_EVERYTHING);
-    win = SDL_CreateWindow("AgarIO CPP",
+    win = SDL_CreateWindow("AgarIO CPP - Lou Tom",
                            SDL_WINDOWPOS_CENTERED,
                            SDL_WINDOWPOS_CENTERED,
                            ReglageJeu::LARGEUR_FENETRE, ReglageJeu::HAUTEUR_FENETRE, SDL_WINDOW_RESIZABLE);
@@ -71,6 +71,7 @@ bool Jeu::tick()
             }
                 break;
 
+            // Gestion du clic sur les boutons
             case SDL_MOUSEBUTTONDOWN:
             {
                 if (pause)
@@ -153,6 +154,8 @@ bool Jeu::tick()
         }
         
     }
+
+    // Gestion de l'etat de la partie, et affichage du menu en conséquence
     switch (checkVictory())
     {
     case 0:
@@ -209,14 +212,14 @@ void Jeu::buildMenu(SDL_Renderer* renderer, const char* state) {
 
     /* Restart Button */
     int btn1_y = bg_y + ReglageJeu::HAUTEUR_MENU / 3;
-    SDL_Surface* surfaceMessageButton1 = TTF_RenderText_Solid(font,"Restart",Black);
+    SDL_Surface* surfaceMessageButton1 = TTF_RenderText_Solid(font,"Rejouer",Black);
     SDL_Texture* MessageButton1 = SDL_CreateTextureFromSurface(renderer, surfaceMessageButton1);
     SDL_Rect Button1 = { btn_x, btn1_y,ReglageJeu::LARGEUR_BOUTON,ReglageJeu::HAUTEUR_BOUTON };
     SDL_Rect Button1Back = { btn_x - 50, btn1_y,ReglageJeu::LARGEUR_BOUTON + 100,ReglageJeu::HAUTEUR_BOUTON };
 
     /* Leave Button */
     int btn2_y = bg_y + ReglageJeu::ESPACE_BOUTON + 2*ReglageJeu::HAUTEUR_MENU / 3;
-    SDL_Surface* surfaceMessageButton2 = TTF_RenderText_Solid(font, "Leave", Black);
+    SDL_Surface* surfaceMessageButton2 = TTF_RenderText_Solid(font, "Quitter", Black);
     SDL_Texture* MessageButton2 = SDL_CreateTextureFromSurface(renderer, surfaceMessageButton2);
     SDL_Rect Button2 = { btn_x, btn2_y,ReglageJeu::LARGEUR_BOUTON,ReglageJeu::HAUTEUR_BOUTON };
     SDL_Rect Button2Back = { btn_x-50, btn2_y,ReglageJeu::LARGEUR_BOUTON+100,ReglageJeu::HAUTEUR_BOUTON };
@@ -253,9 +256,11 @@ void Jeu::restart() {
     pause = false;
 }
 
-/* 0 = Running
-   -1 = Loose
-   1 = Win
+/* 
+*   Valeur de retour
+    0 = Partie en cours
+    -1 = Partie perdue
+    1 = Partie gagnee
 */
 int Jeu::checkVictory() {
     if (!joueurPrincipal.estVisible)

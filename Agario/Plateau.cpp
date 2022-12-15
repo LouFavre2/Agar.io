@@ -107,6 +107,7 @@ Plateau::afficheJoueur(Joueur j, SDL_Renderer *renderer){
     }
 }
 
+// Va permettre de dessinner un cercle en fonction des parametres de la fonction
 void fillCircle(SDL_Renderer* renderer, int x, int y, int radius, SDL_Color color)
 {
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
