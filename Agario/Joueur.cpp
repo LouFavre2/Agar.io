@@ -46,6 +46,7 @@ Joueur::collision(const Joueur &joueur)
     int R1 = this->corps.w/2;
     int R2 = joueur.corps.w/2;
     int C1C2 = sqrt(pow(this->corps.x - joueur.corps.x, 2) + pow(this->corps.y - joueur.corps.y, 2));
+
     return C1C2 <= R1 - R2 || C1C2 <= R2 - R1 || C1C2 < R1 + R2 || C1C2 == R1 + R2;
 }
 
@@ -53,6 +54,12 @@ void
 Joueur::mange(Joueur &joueur)
 {
     joueur.estVisible = false;
+    if (joueur.corps.w <= 0 || joueur.corps.h <= 0)
+    {
+        std::cout << "erreur detect";
+        return;
+    }
+        
     corps.w += (joueur.corps.w/100.0)*30.0;
     corps.h += (joueur.corps.h/100.0)*30.0;
     vx -= vx/50.0;
@@ -67,21 +74,21 @@ Joueur::deplace(bool pause){
     {
         corps.x += vx;
         corps.y += vy;
-        if (corps.x + corps.w > ReglageJeu::LARGEUR_MONDE_JEU)
+        if (corps.x + corps.w/2 > ReglageJeu::LARGEUR_MONDE_JEU)
         {
-            corps.x = ReglageJeu::LARGEUR_MONDE_JEU - corps.w;
+            corps.x = ReglageJeu::LARGEUR_MONDE_JEU - corps.w/2;
         }
-        if (corps.y + corps.h > ReglageJeu::HAUTEUR_MONDE_JEU)
+        if (corps.y + corps.h/2 > ReglageJeu::HAUTEUR_MONDE_JEU)
         {
-            corps.y = ReglageJeu::HAUTEUR_MONDE_JEU - corps.h;
+            corps.y = ReglageJeu::HAUTEUR_MONDE_JEU - corps.h/2;
         }
-        if (corps.x < 0.0)
+        if (corps.x < corps.w / 2)
         {
-            corps.x = 0.0;
+            corps.x = corps.w / 2;
         }
-        if (corps.y < 0.0)
+        if (corps.y < corps.h / 2)
         {
-            corps.y = 0.0;
+            corps.y = corps.h / 2;
         }
     }
 
